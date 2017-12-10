@@ -19,7 +19,8 @@ namespace GameOfLife
         //x좌표 y좌표 주의
         //y좌표가 행, x좌표가 열이다.
 
-        bool mouseLeftClick = false;
+        bool mouseLeftClick = false;//마우스 클릭확인
+
         int generation = 0;
 
         public int Generation
@@ -27,8 +28,6 @@ namespace GameOfLife
             get { return generation; }
             set { generation = value; }
         }
-
-        int finish = 0;
 
         public GamePanel()
         {
@@ -107,19 +106,21 @@ namespace GameOfLife
             Graphics g = e.Graphics;
             //g.SmoothingMode = SmoothingMode.HighSpeed;
 
-            System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
+            
             foreach (KeyValuePair<Point, Cel> items in cels)
             {
-                if (items.Value.isLive == 1)
+                if (items.Value.isLive >= 1)
                 {
-                    ////test
-                    //Text = "pt.X : " + items.Key.X + ", pt.Y : " + items.Key.Y;
+                    //색 조절 // 세포가 오래될 수록 색이 검은색으로 변한다.
+                    int red = 100 - items.Value.isLive >= 0 ? 100 - items.Value.isLive : 0;
+                    int green = 200 - items.Value.isLive >= 0 ? 200 - items.Value.isLive : 0;
+                    int blue = 255 - items.Value.isLive >= 0 ? 255 - items.Value.isLive : 0;
 
+                    System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(red, green, blue));
                     //x,y좌표 헷갈리게 작업했음
                     g.FillRectangle(myBrush, new Rectangle(items.Key.Y * Cel.size, items.Key.X * Cel.size, Cel.size, Cel.size));
                 }
             }
-
 
             //십자무늬 출력
             Pen p = new Pen(Color.Black);
@@ -188,11 +189,6 @@ namespace GameOfLife
             if (cels.ContainsKey(pt) == true)
             {
                 ownState = cels[pt].isLive > 0 ? true : false;
-
-                if (ownState)
-                {
-                    ++cels[pt].isLive;//살아온 세대 수 증가
-                }
             }
 
             //위부터 시계방향으로 확인
@@ -250,32 +246,13 @@ namespace GameOfLife
             //Key값들을 리스트로 변경하여 foreach문을 돌림으로 성능을 강화
             foreach (var key in cels.Keys.ToList())
             {
-                Cel c = cels[key];
-                if (c.next)
-                    c.isLive = 1;
+                if (cels[key].next)
+                    cels[key].isLive += 1;
                 else
                 {
                     cels.Remove(key);
                 }
             }
-            ////다음 세대의 상태값으로 현재 상태 치환
-            //foreach (KeyValuePair<Point, Cel> items in cels)
-            //{
-            //    if (items.Value.next)
-            //        items.Value.isLive = 1;
-            //    else
-            //        items.Value.isLive = 0;
-
-            //}
-
-            ////살아있는 세포 제외 삭제 //에러 발생
-            //foreach (KeyValuePair<Point, Cel> items in cels)
-            //{
-            //    if (items.Value.isLive == 0)
-            //    {
-            //        cels.Remove(items.Key);
-            //    }
-            //}
 
             Invalidate();
         }
