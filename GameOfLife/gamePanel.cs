@@ -51,15 +51,19 @@ namespace GameOfLife
 
             Invalidate();
         }
-        protected override void OnSizeChanged(EventArgs e)
+        public void ChangeCelSize()
         {
-            gamePanel_H = this.Height / 10;//행
-            gamePanel_W = this.Width / 10;//열
+            gamePanel_H = this.Height / Cel.size;//행
+            gamePanel_W = this.Width / Cel.size;//열
 
             Invalidate();
+        }
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            gamePanel_H = this.Height / Cel.size;//행
+            gamePanel_W = this.Width / Cel.size;//열
 
-            //test
-            //this.Text = "h : " + gamePanel_H + ", w : " + gamePanel_W;
+            Invalidate();
 
             base.OnSizeChanged(e);
         }
@@ -124,15 +128,16 @@ namespace GameOfLife
 
             //십자무늬 출력
             Pen p = new Pen(Color.Black);
+
             //가로선 그리기
             for (int i = 0; i <= gamePanel_H; ++i)
             {
-                g.DrawLine(p, 0, i * 10, this.Width, i * 10);
+                g.DrawLine(p, 0, i * Cel.size, this.Width, i * Cel.size);
             }
             //세로선 그리기
             for (int i = 0; i <= gamePanel_W; ++i)
             {
-                g.DrawLine(p, i * 10, 0, i * 10, this.Height);
+                g.DrawLine(p, i * Cel.size, 0, i * Cel.size, this.Height);
             }
             base.OnPaint(e);
         }

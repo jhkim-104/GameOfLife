@@ -158,21 +158,21 @@
             // 새로하기ToolStripMenuItem
             // 
             this.새로하기ToolStripMenuItem.Name = "새로하기ToolStripMenuItem";
-            this.새로하기ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.새로하기ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.새로하기ToolStripMenuItem.Text = "새로하기";
             this.새로하기ToolStripMenuItem.Click += new System.EventHandler(this.새로하기ToolStripMenuItem_Click);
             // 
             // 불러오기ToolStripMenuItem
             // 
             this.불러오기ToolStripMenuItem.Name = "불러오기ToolStripMenuItem";
-            this.불러오기ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.불러오기ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.불러오기ToolStripMenuItem.Text = "불러오기";
             this.불러오기ToolStripMenuItem.Click += new System.EventHandler(this.불러오기ToolStripMenuItem_Click);
             // 
             // 저장하기ToolStripMenuItem
             // 
             this.저장하기ToolStripMenuItem.Name = "저장하기ToolStripMenuItem";
-            this.저장하기ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.저장하기ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.저장하기ToolStripMenuItem.Text = "저장하기";
             this.저장하기ToolStripMenuItem.Click += new System.EventHandler(this.저장하기ToolStripMenuItem_Click);
             // 
@@ -189,6 +189,7 @@
             this.화면크기설정ToolStripMenuItem.Name = "화면크기설정ToolStripMenuItem";
             this.화면크기설정ToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.화면크기설정ToolStripMenuItem.Text = "화면 크기 설정";
+            this.화면크기설정ToolStripMenuItem.Click += new System.EventHandler(this.화면크기설정ToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -283,6 +284,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.Name = "MainForm";
             this.Text = "Game of Life";
             this.toolStrip1.ResumeLayout(false);
@@ -317,12 +319,12 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.Timer timer1;
-        private GamePanel gamePanel;
         private System.Windows.Forms.ToolStripMenuItem 새로하기ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 불러오기ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 저장하기ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 설정ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 화면크기설정ToolStripMenuItem;
+        internal GamePanel gamePanel;
     }
 }
 

@@ -160,5 +160,13 @@ namespace GameOfLife
                 generationLabel.Text = gamePanel.Generation.ToString();//세대 라벨 초기화
             }
         }
+
+        private void 화면크기설정ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DisplaySetting ds = new DisplaySetting();
+            ds.Owner = this;
+            ds.ShowDialog();
+            Invalidate();
+        }
     }
 }
