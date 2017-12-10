@@ -4,7 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,11 +16,8 @@ namespace GameOfLife
 {
     public partial class MainForm : Form
     {
-
         bool isPlay = false;
-        ///////////밑으로 메소드/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //메인 폼 관련 이벤트
         public MainForm()
         {
             InitializeComponent();
@@ -86,6 +86,79 @@ namespace GameOfLife
             generationLabel.Text = gamePanel.Generation.ToString();
 
             Invalidate();
+        }
+
+        private void 저장하기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Save다이얼로그 이용
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Binary File|*.bin";
+            saveFileDialog1.Title = "라이프 게임 저장";
+            saveFileDialog1.ShowDialog();
+
+            //파일명 확인
+            if (saveFileDialog1.FileName != "")
+            {
+                // 파일 스스림 생성
+                FileStream fs = (FileStream)saveFileDialog1.OpenFile();
+
+                // 저장 포맷을 바이트 배열로 만들기
+                MemoryStream stream = new MemoryStream();
+                IFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, gamePanel.GetSvaeData());//직렬화를 통해서 객체를 바이트 배열로 치환
+                byte[] bDts = stream.GetBuffer();
+
+                //파일에 기록
+                BinaryWriter br = new BinaryWriter(fs);
+                br.Write(bDts.Length);//바이트 배열의 크기 저장
+                br.Write(bDts);//바이트 배열 저장
+
+                //파일 스트림 종료
+                fs.Close();
+            }
+        }
+
+        private void 불러오기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Save다이얼로그 이용
+            OpenFileDialog saveFileDialog1 = new OpenFileDialog();
+            saveFileDialog1.Filter = "Binary File|*.bin";
+            saveFileDialog1.Title = "라이프 게임 불러오기";
+            saveFileDialog1.ShowDialog();
+
+            //파일명 확인
+            if (saveFileDialog1.FileName != "")
+            {
+                // 파일 스스림 생성
+                FileStream fs = (FileStream)saveFileDialog1.OpenFile();
+
+                //바이너리 리더생성
+                BinaryReader br = new BinaryReader(fs);
+
+                //바이너리 리더를 통해 배열의 크기를 알아본다.
+                int size = br.ReadInt32();
+
+                //바이너리 리더에 읽어온 크기만큼 바이트 배열을 읽어서 메모리 스트림생성
+                MemoryStream stream = new MemoryStream(br.ReadBytes(size));
+                IFormatter formatter = new BinaryFormatter();
+
+                //바이너리 포메터랑 메모리 스트림을 이용해서 저장형식 역직렬화를 통해서 객체 생성
+                SaveFormat svFormat = (SaveFormat)formatter.Deserialize(stream);
+
+                //해당 객체의 메소드를 이용해 불러온 정보 gamePanel에 기록
+                svFormat.RecoveryData(gamePanel);
+
+                //파일 스트림 종료
+                fs.Close();
+                
+                //게임 세팅
+                timer1.Stop();
+                toolStripStatusLabel4.Text = "로딩완료";
+                isPlay = false;
+                toolStripButton1.Image = GameOfLife.Properties.Resources.play;
+                toolStripButton1.Text = "시작";
+                generationLabel.Text = gamePanel.Generation.ToString();//세대 라벨 초기화
+            }
         }
     }
 }

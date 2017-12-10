@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
+    [Serializable]
     class Cel
     {
         public static int size = 10;

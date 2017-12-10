@@ -30,12 +30,20 @@
         {
             this.components = new System.ComponentModel.Container();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.새로하기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.저장하기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.화면크기설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.generationLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -44,14 +52,6 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.새로하기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.불러오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.저장하기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.화면크기설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gamePanel = new GameOfLife.GamePanel();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -75,6 +75,36 @@
             this.toolStrip1.Size = new System.Drawing.Size(782, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "아이콘모음";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::GameOfLife.Properties.Resources.play;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton1.Text = "시작";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = global::GameOfLife.Properties.Resources.next;
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton2.Text = "다음 세대";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = global::GameOfLife.Properties.Resources.random;
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton3.Text = "랜덤 생성";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // toolStripLabel3
             // 
@@ -125,6 +155,41 @@
             this.파일ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.파일ToolStripMenuItem.Text = "파일";
             // 
+            // 새로하기ToolStripMenuItem
+            // 
+            this.새로하기ToolStripMenuItem.Name = "새로하기ToolStripMenuItem";
+            this.새로하기ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.새로하기ToolStripMenuItem.Text = "새로하기";
+            this.새로하기ToolStripMenuItem.Click += new System.EventHandler(this.새로하기ToolStripMenuItem_Click);
+            // 
+            // 불러오기ToolStripMenuItem
+            // 
+            this.불러오기ToolStripMenuItem.Name = "불러오기ToolStripMenuItem";
+            this.불러오기ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.불러오기ToolStripMenuItem.Text = "불러오기";
+            this.불러오기ToolStripMenuItem.Click += new System.EventHandler(this.불러오기ToolStripMenuItem_Click);
+            // 
+            // 저장하기ToolStripMenuItem
+            // 
+            this.저장하기ToolStripMenuItem.Name = "저장하기ToolStripMenuItem";
+            this.저장하기ToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.저장하기ToolStripMenuItem.Text = "저장하기";
+            this.저장하기ToolStripMenuItem.Click += new System.EventHandler(this.저장하기ToolStripMenuItem_Click);
+            // 
+            // 설정ToolStripMenuItem
+            // 
+            this.설정ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.화면크기설정ToolStripMenuItem});
+            this.설정ToolStripMenuItem.Name = "설정ToolStripMenuItem";
+            this.설정ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.설정ToolStripMenuItem.Text = "설정";
+            // 
+            // 화면크기설정ToolStripMenuItem
+            // 
+            this.화면크기설정ToolStripMenuItem.Name = "화면크기설정ToolStripMenuItem";
+            this.화면크기설정ToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
+            this.화면크기설정ToolStripMenuItem.Text = "화면 크기 설정";
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -159,7 +224,7 @@
             // toolStripStatusLabel5
             // 
             this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
-            this.toolStripStatusLabel5.Size = new System.Drawing.Size(434, 20);
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(473, 20);
             this.toolStripStatusLabel5.Spring = true;
             // 
             // toolStripStatusLabel3
@@ -198,69 +263,6 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // 새로하기ToolStripMenuItem
-            // 
-            this.새로하기ToolStripMenuItem.Name = "새로하기ToolStripMenuItem";
-            this.새로하기ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
-            this.새로하기ToolStripMenuItem.Text = "새로하기";
-            this.새로하기ToolStripMenuItem.Click += new System.EventHandler(this.새로하기ToolStripMenuItem_Click);
-            // 
-            // 불러오기ToolStripMenuItem
-            // 
-            this.불러오기ToolStripMenuItem.Name = "불러오기ToolStripMenuItem";
-            this.불러오기ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
-            this.불러오기ToolStripMenuItem.Text = "불러오기";
-            // 
-            // 저장하기ToolStripMenuItem
-            // 
-            this.저장하기ToolStripMenuItem.Name = "저장하기ToolStripMenuItem";
-            this.저장하기ToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
-            this.저장하기ToolStripMenuItem.Text = "저장하기";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::GameOfLife.Properties.Resources.play;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButton1.Text = "시작";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::GameOfLife.Properties.Resources.next;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButton2.Text = "다음 세대";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::GameOfLife.Properties.Resources.random;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButton3.Text = "랜덤 생성";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
-            // 
-            // 설정ToolStripMenuItem
-            // 
-            this.설정ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.화면크기설정ToolStripMenuItem});
-            this.설정ToolStripMenuItem.Name = "설정ToolStripMenuItem";
-            this.설정ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
-            this.설정ToolStripMenuItem.Text = "설정";
-            // 
-            // 화면크기설정ToolStripMenuItem
-            // 
-            this.화면크기설정ToolStripMenuItem.Name = "화면크기설정ToolStripMenuItem";
-            this.화면크기설정ToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
-            this.화면크기설정ToolStripMenuItem.Text = "화면 크기 설정";
             // 
             // gamePanel
             // 

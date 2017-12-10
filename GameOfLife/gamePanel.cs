@@ -86,6 +86,21 @@ namespace GameOfLife
             }
             Invalidate();
         }
+        public SaveFormat GetSvaeData()
+        {
+            return new SaveFormat(gamePanel_W, gamePanel_H, cels, generation);
+        }
+
+        public void Recovery(int w, int h, Dictionary<Point, Cel> cs, int gen)
+        {
+            //데이터 복구
+            gamePanel_W = w;
+            gamePanel_H = h;
+            cels = cs;
+            generation = gen;
+
+            Invalidate();
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
