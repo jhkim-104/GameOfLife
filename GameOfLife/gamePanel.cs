@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace GameOfLife
         //패널의 너비와 높이
         int gamePanel_W;
         int gamePanel_H;
+        //UI를 위한 현재 마우스 위치저장
+        Point currentMouse = new Point(-1,-1);
 
         //세포들의 저장공간 생성
         Dictionary<Point, Cel> cels = new Dictionary<Point, Cel>();
@@ -109,7 +112,12 @@ namespace GameOfLife
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            
+            g.SmoothingMode = SmoothingMode.HighSpeed;
+
+            //현재 마우스 위치에 반투명 하늘색 사각형 추가 //순서 중요 하늘색박스를 먼저해야 밑에 작동하는 세포들 방해 안한다.
+            System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(200, 230, 255));
+            g.FillRectangle(myBrush, new Rectangle(currentMouse.X/ Cel.size * Cel.size, currentMouse.Y/ Cel.size * Cel.size, Cel.size, Cel.size));
+
             foreach (KeyValuePair<Point, Cel> items in cels)
             {
                 if (items.Value.isLive >= 1)
@@ -119,7 +127,7 @@ namespace GameOfLife
                     int green = 200 - items.Value.isLive >= 0 ? 200 - items.Value.isLive : 0;
                     int blue = 255 - items.Value.isLive >= 0 ? 255 - items.Value.isLive : 0;
 
-                    System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(red, green, blue));
+                    myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(red, green, blue));
                     //x,y좌표 헷갈리게 작업했음
                     g.FillRectangle(myBrush, new Rectangle(items.Key.Y * Cel.size, items.Key.X * Cel.size, Cel.size, Cel.size));
                 }
@@ -188,8 +196,12 @@ namespace GameOfLife
                     }
 
                 }
-                Invalidate();//그냥 마우스 움직임일때는 최신화x
             }
+
+            currentMouse.X = e.X;
+            currentMouse.Y = e.Y;
+
+            Invalidate();//마우스 따라다니며 현재위치 표시를 위해 계속 최신화
 
             base.OnMouseMove(e);
         }
