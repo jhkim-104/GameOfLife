@@ -14,67 +14,54 @@ namespace GameOfLife
     public partial class MainForm : Form
     {
 
-     //패널 변수
-        int gamePanel_W;
-        int gamePanel_H;
+        bool isPlay = false;
+        ///////////밑으로 메소드/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
- ///////////밑으로 메소드/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-     //메인 폼 관련 이벤트
+        //메인 폼 관련 이벤트
         public MainForm()
         {
             InitializeComponent();
 
-            //깜빡임을 없애줌
-            DoubleBuffered = true;
-            //this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);         
+            //타이머와 시간조절 GUI 초기화
+            timer1.Interval = 100;
+            trackBar1.Value = timer1.Interval;
+            toolStripTextBox1.Text = timer1.Interval.ToString();
 
-            //패널관련
-            gamePanel_H = gamePanel.Height / 10;//행
-            gamePanel_W = gamePanel.Width / 10;//열
-
-            //test
-            this.Text = "h : " + gamePanel_H + ", w : " + gamePanel_W;
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-            base.OnPaint(e);
-        }
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            
-            base.OnSizeChanged(e);
+            generationLabel.Text = (++gamePanel.Generation).ToString();
+            gamePanel.NextGeneration();   
         }
 
-    //밑으로는 패널 이벤트
-        private void gamePanel_Paint(object sender, PaintEventArgs e)
+        private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.HighSpeed;
-
-            Pen p = new Pen(Color.Black);
-            //가로선 그리기
-            for (int i = 0; i < gamePanel_H; ++i)
+            if (!isPlay)
             {
-                g.DrawLine(p, 0, i * 10, this.Width, i * 10);
+                toolStripStatusLabel4.Text = "동작";
+                isPlay = true;
+                toolStripButton1.Image = GameOfLife.Properties.Resources.stop;
+                timer1.Start();
             }
-            //세로선 그리기
-            for (int i = 0; i < gamePanel_W; ++i)
+            else
             {
-                g.DrawLine(p, i * 10, 0, i * 10, this.Height);
+                toolStripStatusLabel4.Text = "일시정지";
+                isPlay = false;
+                toolStripButton1.Image = GameOfLife.Properties.Resources.play;                
+                timer1.Stop();
             }
-
+        }
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            generationLabel.Text = (++gamePanel.Generation).ToString();
+            gamePanel.NextGeneration();
         }
 
-        private void gamePanel_SizeChanged(object sender, EventArgs e)
+        private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            gamePanel_H = this.Height / 10;//행
-            gamePanel_W = this.Width / 10;//열
-
-            //test
-            this.Text = "h : " + gamePanel_H + ", w : " + gamePanel_W;
-            gamePanel.Invalidate();
+            timer1.Interval = trackBar1.Value;
+            toolStripTextBox1.Text = timer1.Interval.ToString();
         }
     }
 }
