@@ -189,10 +189,10 @@ namespace GameOfLife
             {
                 ownState = cels[pt].isLive > 0 ? true : false;
 
-                //if(own)
-                //{
-                //    ++num;
-                //}
+                if (ownState)
+                {
+                    ++cels[pt].isLive;//살아온 세대 수 증가
+                }
             }
 
             //위부터 시계방향으로 확인
@@ -246,30 +246,36 @@ namespace GameOfLife
                 }
             }
 
-            //다음 세대의 상태값으로 현재 상태 치환
-            foreach (KeyValuePair<Point, Cel> items in cels)
+            //필요없는 Cel삭제시 딕셔너리의 특성상 기준점 변경시 에러가 나기 때문에 
+            //Key값들을 리스트로 변경하여 foreach문을 돌림으로 성능을 강화
+            foreach (var key in cels.Keys.ToList())
             {
-                if (items.Value.next)
-                    items.Value.isLive = 1;
+                Cel c = cels[key];
+                if (c.next)
+                    c.isLive = 1;
                 else
-                    items.Value.isLive = 0;
+                {
+                    cels.Remove(key);
+                }
             }
-            //for (int i = 0; i < h; ++i)
+            ////다음 세대의 상태값으로 현재 상태 치환
+            //foreach (KeyValuePair<Point, Cel> items in cels)
             //{
-            //    for (int j = 0; j < w; ++j)
-            //    {
-            //        if (cels.ContainsKey(new Point(i, j)) == true)
-            //        {
-            //            Cel c = cels[new Point(i, j)];
-            //            if (c.next)
-            //                c.isLive = 1;
-            //            else
-            //                c.isLive = 0;
-            //        }
-            //    }
+            //    if (items.Value.next)
+            //        items.Value.isLive = 1;
+            //    else
+            //        items.Value.isLive = 0;
+
             //}
 
-            //this.Text = (++finish).ToString();
+            ////살아있는 세포 제외 삭제 //에러 발생
+            //foreach (KeyValuePair<Point, Cel> items in cels)
+            //{
+            //    if (items.Value.isLive == 0)
+            //    {
+            //        cels.Remove(items.Key);
+            //    }
+            //}
 
             Invalidate();
         }
