@@ -245,7 +245,7 @@ namespace GameOfLife
         }
         public void NextGeneration()
         {
-            //다음 세대 상태를 검사해서 설정//오류 수정 : 각 검사하는 세포를 +10를 통해서 마지막에 멈춰버리는 문제해결
+            //다음 세대 상태를 검사해서 설정//오류 수정1 : 각 검사하는 세포를 +10를 통해서 마지막에 멈춰버리는 문제해결
             for (int i = 0; i <= gamePanel_H+10; ++i)
             {
                 for (int j = 0; j <= gamePanel_W+10; ++j)
@@ -258,7 +258,7 @@ namespace GameOfLife
             //Key값들을 리스트로 변경하여 foreach문을 돌림으로 성능을 강화
             foreach (var key in cels.Keys.ToList())
             {
-                if (key.Y > gamePanel_W || key.X > gamePanel_H)//규정된 창의 크기(너비, 높이)를 벗어났을 경우의 세포들은 없애므로 성능 향상
+                if (key.Y > gamePanel_W+10 || key.X > gamePanel_H+10)//오류수정2:규정된 창의 크기(너비, 높이)를 벗어났을 경우의 세포들은 없애므로 성능 향상
                 {
                     cels.Remove(key);
                 }
