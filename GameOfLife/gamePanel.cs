@@ -19,34 +19,33 @@ namespace GameOfLife
         //x좌표 y좌표 주의
         //y좌표가 행, x좌표가 열이다.
 
-        bool mouseLeftClick = false;//마우스 클릭확인
+        //모드 제어용 변수
+        bool mouseClick = false;//마우스 클릭확인
+        bool removeMode = false;//지우는 모드인지 확인
 
+        //세대 변수
         int generation = 0;
-
         public int Generation
         {
             get { return generation; }
             set { generation = value; }
         }
 
+
         public GamePanel()
         {
             this.DoubleBuffered = true;
 
-
             gamePanel_H = Height / 10;//행
             gamePanel_W = Width / 10;//열
-
-            //((MainForm)Parent).Text = "test";
-            //test
-            //Parent.Text = "h : " + gamePanel_H + ", w : " + gamePanel_W;
         }
         public void ResetGame()
         {
             //세포들의 저장공간 생성
             cels.Clear();
 
-            mouseLeftClick = false;
+            mouseClick = false;
+            removeMode = false;
             generation = 0;
 
             Invalidate();
@@ -67,6 +66,7 @@ namespace GameOfLife
 
             base.OnSizeChanged(e);
         }
+        //랜덤 생성용 메소드
         public void RandomCreate()
         {
             //셀 초기화
@@ -89,11 +89,12 @@ namespace GameOfLife
             }
             Invalidate();
         }
+        //저장용 데이터 반환
         public SaveFormat GetSvaeData()
         {
             return new SaveFormat(gamePanel_W, gamePanel_H, cels, generation);
         }
-
+        //불러오기시 사용하는 메소드
         public void Recovery(int w, int h, Dictionary<Point, Cel> cs, int gen)
         {
             //데이터 복구
@@ -108,8 +109,6 @@ namespace GameOfLife
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            //g.SmoothingMode = SmoothingMode.HighSpeed;
-
             
             foreach (KeyValuePair<Point, Cel> items in cels)
             {
@@ -142,18 +141,29 @@ namespace GameOfLife
             base.OnPaint(e);
         }
 
-
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            //Text = "pt.X : " + e.X + ", pt.Y : " + e.Y;
-            mouseLeftClick = true;
+            mouseClick = true;
+            Point pt = new Point(e.Y / Cel.size, e.X / Cel.size);
+            if (cels.ContainsKey(pt) == false)
+            {
+                cels.Add(pt, new Cel());
+            }
+            else
+            {
+                removeMode = true;
+                cels.Remove(pt);
+            }
 
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            mouseLeftClick = false;
+            mouseClick = false;
+            removeMode = false;
+
+            Invalidate();//일반 클릭시에도 반응하기 위하여 여기 최신화
 
             base.OnMouseUp(e);
         }
@@ -161,28 +171,26 @@ namespace GameOfLife
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (mouseLeftClick == true)
+            if (mouseClick == true)
             {
                 Point pt = new Point(e.Y / Cel.size, e.X / Cel.size);
-                if (cels.ContainsKey(pt) == false)
+                if (!removeMode)
                 {
-                    cels.Add(pt, new Cel());
+                    if (cels.ContainsKey(pt) == false)
+                    {
+                        cels.Add(pt, new Cel());
+                    }
                 }
                 else
                 {
-                    Cel c = cels[pt];
-                    if (c.isLive > 0)
+                    if (cels.ContainsKey(pt))
                     {
-                        c.isLive = 0;
+                        cels.Remove(pt);
                     }
-                    else
-                    {
-                        c.isLive = 1;
-                    }
-                }
-                Invalidate();
-            }
 
+                }
+                Invalidate();//그냥 마우스 움직임일때는 최신화x
+            }
 
             base.OnMouseMove(e);
         }
