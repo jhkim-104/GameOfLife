@@ -21,6 +21,7 @@ namespace GameOfLife
 
         bool mouseLeftClick = false;
         int generation = 0;
+
         public int Generation
         {
             get { return generation; }
@@ -41,6 +42,16 @@ namespace GameOfLife
             //test
             //Parent.Text = "h : " + gamePanel_H + ", w : " + gamePanel_W;
         }
+        public void ResetGame()
+        {
+            //세포들의 저장공간 생성
+            cels.Clear();
+
+            mouseLeftClick = false;
+            generation = 0;
+
+            Invalidate();
+        }
         protected override void OnSizeChanged(EventArgs e)
         {
             gamePanel_H = this.Height / 10;//행
@@ -52,6 +63,28 @@ namespace GameOfLife
             //this.Text = "h : " + gamePanel_H + ", w : " + gamePanel_W;
 
             base.OnSizeChanged(e);
+        }
+        public void RandomCreate()
+        {
+            //셀 초기화
+            cels.Clear();
+            Random rand = new Random();
+
+            //다음 세대 상태를 검사해서 설정
+            for (int i = 0; i < gamePanel_H; ++i)
+            {
+                for (int j = 0; j < gamePanel_W; ++j)
+                {
+                    if (rand.Next(10) >= 5)//0~9까지의 랜덤 중 5이상이면 생성
+                    {
+                        Point pt = new Point(i, j);
+                        Cel c = new Cel();
+                        c.isLive = 1;
+                        cels.Add(pt, c);
+                    }
+                }
+            }
+            Invalidate();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -126,8 +159,9 @@ namespace GameOfLife
                         c.isLive = 1;
                     }
                 }
+                Invalidate();
             }
-            Invalidate();
+
 
             base.OnMouseMove(e);
         }

@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icons\next.png" />
+    <Content Include="Icons\random.png" />
     <None Include="Icons\play.png" />
     <Content Include="Icons\stop.png" />
   </ItemGroup>
