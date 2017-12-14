@@ -34,7 +34,6 @@ namespace GameOfLife
             set { generation = value; }
         }
 
-
         public GamePanel()
         {
             this.DoubleBuffered = true;
@@ -258,9 +257,9 @@ namespace GameOfLife
         public void NextGeneration()
         {
             //다음 세대 상태를 검사해서 설정//오류 수정1 : 각 검사하는 세포를 +10를 통해서 마지막에 멈춰버리는 문제해결
-            for (int i = 0; i <= gamePanel_H+10; ++i)
+            for (int i = -10; i <= gamePanel_H+10; ++i)
             {
-                for (int j = 0; j <= gamePanel_W+10; ++j)
+                for (int j = -10; j <= gamePanel_W+10; ++j)
                 {
                     NextCheck(new Point(i, j));
                 }
